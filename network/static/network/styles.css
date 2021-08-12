@@ -1,0 +1,65 @@
+.container, .container-post {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    margin-left: 16px;
+    padding-right: 16px;
+    padding-left: 30px;
+    margin-bottom: 10px;
+    border: solid;
+    border-width: 1px;
+    background-color: #FCF6F5FF;
+}
+
+body {
+    background-color: rgb(161, 196, 252);
+}
+
+.container-post {
+    width: 1140px;
+    background-color: #FCF6F5FF;
+}
+
+.modButtons > button {
+    margin-bottom: 5px;
+}
+
+.navbar {
+    background-color: #F2EDD7FF;
+}
+
+h3, h6, .pagination {
+    margin-left: 16px;
+}
+
+h6 {
+    color: rgb(0, 153, 255);
+}
+
+#followButtons {
+    margin-left: 16px;
+    margin-bottom: 10px;
+}
+
+.page-links {
+    margin-top: 10px;
+    margin-bottom: 50px;
+}
+
+.page-links > a {
+    padding: 6px;
+    color: rgb(0, 153, 255);
+    border: solid;
+    border-width: .5px;
+    border-color: rgb(230, 227, 227);
+    background-color: white;
+}
+
+.page-links > a:hover {
+    background-color: rgb(230, 227, 227);
+    text-decoration: none;
+}
+
+.content {
+    font-size: 20px;
+}
+

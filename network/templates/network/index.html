@@ -1,0 +1,80 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+    {% if profile %}
+        <h3>{{ profile.username }}</h3>
+        <h6>{{ following }} Following</h6>
+        <h6 id="followers">{{ followers }} Followers</h6>
+        {% if profile.username != user.username and user.is_authenticated %}
+            <div id="followButtons" data-userfollowing="{{ userFollowing }}">
+                <button type="submit" id="follow" value="{{ profile.username }}">Follow</button>
+                <button type="submit" id="unfollow" value="{{ profile.username }}">Unfollow</button>
+            </div>
+        {% endif %}
+    {% elif invalid %}
+        <h3>Invalid User</h3>
+    {% elif follow_page %}
+        <h3>Follow Page</h3>
+    {% else %}
+        <h3>All Posts</h3>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <div class="container">
+            <form action="{% url 'index' %}" method="POST">
+                {% csrf_token %}
+                <h5>New Post</h5>
+                <textarea id="new-post" name="content" cols="140"></textarea><br>
+                <input class="btn btn-primary" type="submit" value="Post">
+            </form>
+        </div>
+    {% endif %}
+
+    
+    {% for post in posts %}
+        <div class="container-post" data-postid="{{ post.id }}">
+            <h5><a href="{% url 'profile' post.poster.username %}">{{ post.poster }}</a></h5>
+            {% if user.is_authenticated %}
+                {% if user == post.poster %}
+                    <div class="modButtons">
+                        <button class="edit btn btn-outline-success">Edit</button>
+                    </div>
+                {% endif %}
+            {% endif %}
+            <div class="content"> 
+                {{ post.content }}
+            </div>
+            {{ post.timestamp }}<br>
+            <div class="likes-count">
+                {{ post.likesCount }}
+            </div>
+            {% if user not in post.likeList %}
+            <img src="{% static 'network/like.png' %}" width="20" height="20" class="like">
+            <img src="{% static 'network/dislike.png' %}" width="23" height="23" class="unlike" style="pointer-events: none;">
+            {% else %}
+            <img src="{% static 'network/like.png' %}" width="20" height="20" class="like" style="pointer-events: none; border: solid; border-width: 1px;">
+            <img src="{% static 'network/dislike.png' %}" width="23" height="23" class="unlike">
+            {% endif %}
+            <hr>
+        </div>
+    {% empty %}
+        <h5 style="padding-left: 16px;">No posts yet</h5>
+    {% endfor %}
+
+    <div class="pagination">
+        <span class="page-links">
+            {% if posts.has_previous %}
+                <a href="?page={{ posts.previous_page_number }}">Previous Page</a>
+            {% endif %}
+            {% if posts.has_next %}
+                <a href="?page={{ posts.next_page_number }}">Next Page</a>
+            {% endif %}
+            {{ pagenum }}
+        </span>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'network/index.js' %}"></script>
+{% endblock %}
